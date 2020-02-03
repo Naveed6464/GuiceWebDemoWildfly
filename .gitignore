@@ -1,0 +1,7 @@
+*.log
+*.log
+**/build
+**/.gradle
+**/.nb-gradle
+**/private
+.nb-gradle-properties

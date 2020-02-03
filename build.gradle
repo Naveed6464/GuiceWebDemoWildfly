@@ -1,0 +1,58 @@
+apply plugin: 'java'
+apply plugin: 'war'
+
+apply plugin: 'org.akhikhl.gretty'
+
+buildscript {
+    repositories {
+        mavenLocal()
+        jcenter()
+    }
+    dependencies {
+        classpath 'org.akhikhl.gretty:gretty:+'
+    }
+}
+
+sourceCompatibility = '1.8'
+[compileJava, compileTestJava]*.options*.encoding = 'UTF-8'
+
+if (!hasProperty('mainClass')) {
+    ext.mainClass = ''
+}
+
+repositories {
+    mavenCentral()
+    mavenLocal()
+}
+
+ext.guiceVersion = '4.2.2'
+ext.guavaVersion = '28.1-jre'
+ext.gsonVersion = '2.8.5'
+ext.h2DBVersion = '1.4.199'
+ext.eclipseLinkVersion = '2.7.4'
+ext.queryDslVersion = '4.2.1'
+ext.classGraphVersion = '4.8.47'
+ext.restEasyVersion = '4.4.2.Final'
+
+dependencies {
+    compile "com.google.inject:guice:$guiceVersion"
+    compile "com.google.inject.extensions:guice-servlet:${guiceVersion}"
+    
+    compile "org.jboss.resteasy:resteasy-guice:$restEasyVersion"    
+    
+    compile "org.slf4j:slf4j-api:1.7.26",
+                "ch.qos.logback:logback-classic:1.2.3"   
+    providedCompile "javax.servlet:javax.servlet-api:3.1.0"
+    compileOnly 'org.projectlombok:lombok:1.18.10'
+    annotationProcessor 'org.projectlombok:lombok:1.18.10'
+    
+    //    compile "io.github.classgraph:classgraph:${classGraphVersion}"
+    
+    testCompile group: 'junit', name: 'junit', version: '4.10'
+}
+
+gretty {
+    httpPort = 7070
+    contextPath = '/'
+    servletContainer = 'jetty9'
+}
